@@ -1,27 +1,20 @@
 # Kanban Backlog
 
-## Backlog
+## Backlog (Future Work)
 
 - Migrate data layer from JSON storage to PostgreSQL
-- Add edit and delete controls in the frontend dashboard
-- Add application filtering and sorting UI
-- Add test automation for auth and applications API
-- Add deployment configuration for Render and Vercel
+- Add password strength validation
+- Add forgot password / password reset flow
+- Add email reminder notifications
+- Add export and reporting support
 
 ## To Do
 
-- Install backend dependencies
-- Install frontend dependencies
-- Create `.env` from `.env.example`
-- Run backend and validate `/health`
-- Register first user and test dashboard workflow
+- (none — all core deliverables complete)
 
 ## In Progress
 
-- Progress Report 2 draft
-- Progress Report 3 draft
-- Test case preparation
-- Defect log setup
+- (none — all progress reports and final report submitted)
 
 ## Done
 
@@ -29,3 +22,14 @@
 - Backend routes scaffolded
 - Frontend pages scaffolded
 - Architecture and testing documents created
+- Edit and delete controls added to frontend dashboard
+- Application filtering and search UI added
+- Test automation implemented with Jest and Supertest (17 cases, 100% pass rate)
+- Critical security defects resolved (bcrypt, await fix)
+- Deployment configuration added (Docker, Render)
+- Progress Report 1 — submitted
+- Progress Report 2 — submitted
+- Progress Report 3 — submitted
+- Progress Report 4 — submitted
+- Final Report — submitted
+- Final Presentation — prepared and exported

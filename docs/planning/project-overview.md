@@ -20,12 +20,14 @@ JAT is a web application that centralizes application tracking, authentication, 
 - Notes and job links for each application
 - Dashboard visibility for current progress
 
-## Week 10 Position
+## Final Status
 
-By Week 10, the repository should show:
+The project is complete. All deliverables have been submitted:
 
-- feature implementation underway
-- an integrated frontend and backend structure
-- testing documentation
-- defect logging capability
-- evidence folders for screenshots and report materials
+- Requirements Gathering Report
+- Project Proposal
+- Progress Reports 1–4
+- Final Report
+- Final Presentation
+
+The application is deployed at: https://job-application-tracker-rz65.onrender.com

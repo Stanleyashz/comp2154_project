@@ -15,7 +15,7 @@ Verify that the Job Application Tracker behaves correctly across authentication,
 
 - Manual browser testing
 - API testing through curl or Postman
-- Planned automated tests with Jest and Supertest
+- Automated tests with Jest and Supertest
 
 ## Quality Focus for Week 10
 

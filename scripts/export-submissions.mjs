@@ -59,6 +59,26 @@ const exportTargets = [
     title: "Course Materials Summary - COMP 2154"
   },
   {
+    sourcePath: path.join(rootDir, "docs", "reports", "requirements-gathering-report.md"),
+    output: "Stanley_Okafor_COMP2154_Requirements_Gathering_Report.docx",
+    title: "Requirements Gathering Report - Job Application Tracker"
+  },
+  {
+    sourcePath: path.join(rootDir, "docs", "reports", "project-proposal.md"),
+    output: "Stanley_Okafor_COMP2154_Project_Proposal.docx",
+    title: "Project Proposal - Job Application Tracker"
+  },
+  {
+    sourcePath: path.join(rootDir, "docs", "reports", "progress-report-1.md"),
+    output: "Stanley_Okafor_COMP2154_Progress_Report_1.docx",
+    title: "Progress Report 1 - Job Application Tracker"
+  },
+  {
+    sourcePath: path.join(rootDir, "docs", "presentation", "final-presentation.md"),
+    output: "Stanley_Okafor_COMP2154_Final_Presentation.docx",
+    title: "Final Presentation - Job Application Tracker"
+  },
+  {
     sourcePath: path.join(reportsDir, "progress-report-2.md"),
     output: "Stanley_Okafor_COMP2154_Progress_Report_2.docx",
     title: "Progress Report 2 - Job Application Tracker"

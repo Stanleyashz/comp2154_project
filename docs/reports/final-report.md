@@ -18,9 +18,9 @@ The system addresses the need for an organized and secure way to manage job appl
 
 ### Key Stakeholders
 
-- primary user/job seeker
-- course evaluator/instructor
-- future maintainers of the codebase
+- Primary user/job seeker
+- Course evaluator/instructor
+- Future maintainers of the codebase
 
 ### High-Level Goals and Scope
 
