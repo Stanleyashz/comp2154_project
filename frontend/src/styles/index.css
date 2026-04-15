@@ -1,0 +1,165 @@
+:root {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #14213d;
+  background: linear-gradient(180deg, #f9f7f1 0%, #edf2f4 100%);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 56px;
+}
+
+.topbar,
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.topbar {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-button,
+button {
+  background: #1d3557;
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 999px;
+}
+
+.nav-button.active {
+  background: #e76f51;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: #6c757d;
+}
+
+.card,
+.hero {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(20, 33, 61, 0.08);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 16px 40px rgba(20, 33, 61, 0.08);
+}
+
+.hero {
+  margin-bottom: 20px;
+}
+
+.narrow {
+  max-width: 480px;
+}
+
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+}
+
+.grid {
+  grid-template-columns: 1.2fr 0.8fr;
+  margin-bottom: 20px;
+}
+
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.summary-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.summary-count,
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.error {
+  color: #b42318;
+}
+
+.muted {
+  color: #6c757d;
+}
+
+.linkish {
+  background: transparent;
+  color: #1d3557;
+  padding: 0;
+}
+
+@media (max-width: 760px) {
+  .topbar,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

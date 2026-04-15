@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: job-application-tracker
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    autoDeploy: false
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
