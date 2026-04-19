@@ -12,16 +12,15 @@ router.post("/register", async (request, response) => {
     return response.status(400).json({ error: "Name, email, and password are required" });
   }
 
-  const existingUser = await findUserByEmail(email);
-  if (existingUser) {
-    return response.status(409).json({ error: "Email is already registered" });
-  }
-
   const user = await createUser({
     name,
     email,
     passwordHash: await hashPassword(password)
   });
+
+  if (!user) {
+    return response.status(409).json({ error: "Email is already registered" });
+  }
 
   return response.status(201).json({
     message: "User registered successfully",

@@ -17,6 +17,7 @@ Backend:
 - `PORT` - server port, default `5000`
 - `JWT_SECRET` - required in production
 - `FRONTEND_URL` - allowed browser origins for cross-origin access; supports comma-separated values
+- `DB_PATH` - absolute path to the JSON database file; in hosted environments this should point to persistent storage
 
 Frontend:
 
@@ -61,6 +62,12 @@ Steps:
 
 If the frontend is being served by the same backend service, `VITE_API_URL` does not need to be set.
 
+Important:
+
+- Render web services use an ephemeral filesystem by default, so accounts written inside the container are lost on restart or redeploy.
+- The included `render.yaml` attaches a persistent disk at `/app/data` and sets `DB_PATH=/app/data/database.json`.
+- If you deploy manually instead of using the blueprint, add a persistent disk yourself and point `DB_PATH` at that mount path.
+
 ## Configuration Management
 
 - Secrets are stored in environment variables, not committed into the repo.
@@ -69,7 +76,7 @@ If the frontend is being served by the same backend service, `VITE_API_URL` does
 
 ## Backup and Recovery
 
-Current persistence is file-based JSON storage in `backend/src/data/database.json`.
+Current persistence is file-based JSON storage. In local development it defaults to `backend/src/data/database.json`. In hosted environments it should be moved to a persistent path via `DB_PATH`, such as `/app/data/database.json` on Render.
 
 Backup plan:
 
@@ -88,4 +95,4 @@ Recovery plan:
 - Use the `/health` endpoint for availability checks.
 - Review container/service logs for API errors.
 - Rotate `JWT_SECRET` when moving to a real production environment.
-- Planned future enhancement: move persistence to PostgreSQL for durable hosted storage.
+- For multi-user production usage, move persistence to PostgreSQL instead of relying on a JSON file plus disk.

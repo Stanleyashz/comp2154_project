@@ -68,6 +68,26 @@ describe("POST /api/auth/register", () => {
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty("error");
   });
+
+  test("TC-AUTH-007 — concurrent duplicate registration only creates one account", async () => {
+    const email = `race-${Date.now()}@test.com`;
+
+    const [first, second] = await Promise.all([
+      request(app).post("/api/auth/register").send({
+        name: "Race One",
+        email,
+        password: "pass123"
+      }),
+      request(app).post("/api/auth/register").send({
+        name: "Race Two",
+        email,
+        password: "pass456"
+      })
+    ]);
+
+    const statuses = [first.status, second.status].sort((a, b) => a - b);
+    expect(statuses).toEqual([201, 409]);
+  });
 });
 
 // ─── TC-AUTH-002 variant: Successful Login ────────────────────────────────────

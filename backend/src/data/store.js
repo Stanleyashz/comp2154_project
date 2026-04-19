@@ -8,17 +8,26 @@ const __dirname = path.dirname(__filename);
 const databasePath = process.env.DB_PATH
   ? path.resolve(process.env.DB_PATH)
   : path.join(__dirname, "database.json");
+const databaseDirectory = path.dirname(databasePath);
 
 const defaultData = {
   users: [],
   applications: []
 };
 
+let mutationQueue = Promise.resolve();
+
+function cloneDefaultData() {
+  return structuredClone(defaultData);
+}
+
 async function ensureStore() {
+  await fs.mkdir(databaseDirectory, { recursive: true });
+
   try {
     await fs.access(databasePath);
   } catch {
-    await fs.writeFile(databasePath, JSON.stringify(defaultData, null, 2));
+    await writeStore(cloneDefaultData());
   }
 }
 
@@ -29,7 +38,26 @@ async function readStore() {
 }
 
 async function writeStore(data) {
-  await fs.writeFile(databasePath, JSON.stringify(data, null, 2));
+  const temporaryPath = `${databasePath}.${process.pid}.tmp`;
+  await fs.writeFile(temporaryPath, JSON.stringify(data, null, 2));
+  await fs.rename(temporaryPath, databasePath);
+}
+
+async function mutateStore(mutator) {
+  const runMutation = async () => {
+    const data = await readStore();
+    const result = await mutator(data);
+    await writeStore(data);
+    return result;
+  };
+
+  const pendingMutation = mutationQueue.then(runMutation, runMutation);
+  mutationQueue = pendingMutation.then(
+    () => undefined,
+    () => undefined
+  );
+
+  return pendingMutation;
 }
 
 export async function getUsers() {
@@ -38,15 +66,24 @@ export async function getUsers() {
 }
 
 export async function createUser(user) {
-  const data = await readStore();
-  const newUser = {
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-    ...user
-  };
-  data.users.push(newUser);
-  await writeStore(data);
-  return newUser;
+  return mutateStore((data) => {
+    const existingUser = data.users.find(
+      (storedUser) => storedUser.email.toLowerCase() === user.email.toLowerCase()
+    );
+
+    if (existingUser) {
+      return null;
+    }
+
+    const newUser = {
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+      ...user
+    };
+
+    data.users.push(newUser);
+    return newUser;
+  });
 }
 
 export async function findUserByEmail(email) {
@@ -60,50 +97,47 @@ export async function getApplicationsForUser(userId) {
 }
 
 export async function createApplication(application) {
-  const data = await readStore();
-  const timestamp = new Date().toISOString();
-  const newApplication = {
-    id: crypto.randomUUID(),
-    createdAt: timestamp,
-    updatedAt: timestamp,
-    ...application
-  };
-  data.applications.push(newApplication);
-  await writeStore(data);
-  return newApplication;
+  return mutateStore((data) => {
+    const timestamp = new Date().toISOString();
+    const newApplication = {
+      id: crypto.randomUUID(),
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      ...application
+    };
+
+    data.applications.push(newApplication);
+    return newApplication;
+  });
 }
 
 export async function updateApplication(userId, applicationId, updates) {
-  const data = await readStore();
-  const index = data.applications.findIndex(
-    (application) => application.id === applicationId && application.userId === userId
-  );
+  return mutateStore((data) => {
+    const index = data.applications.findIndex(
+      (application) => application.id === applicationId && application.userId === userId
+    );
 
-  if (index === -1) {
-    return null;
-  }
+    if (index === -1) {
+      return null;
+    }
 
-  data.applications[index] = {
-    ...data.applications[index],
-    ...updates,
-    updatedAt: new Date().toISOString()
-  };
+    data.applications[index] = {
+      ...data.applications[index],
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
 
-  await writeStore(data);
-  return data.applications[index];
+    return data.applications[index];
+  });
 }
 
 export async function deleteApplication(userId, applicationId) {
-  const data = await readStore();
-  const before = data.applications.length;
-  data.applications = data.applications.filter(
-    (application) => !(application.id === applicationId && application.userId === userId)
-  );
+  return mutateStore((data) => {
+    const before = data.applications.length;
+    data.applications = data.applications.filter(
+      (application) => !(application.id === applicationId && application.userId === userId)
+    );
 
-  if (data.applications.length === before) {
-    return false;
-  }
-
-  await writeStore(data);
-  return true;
+    return data.applications.length !== before;
+  });
 }

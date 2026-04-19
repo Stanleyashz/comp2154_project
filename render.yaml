@@ -4,7 +4,13 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile
     autoDeploy: false
+    disk:
+      name: app-data
+      mountPath: /app/data
+      sizeGB: 1
     envVars:
+      - key: DB_PATH
+        value: /app/data/database.json
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL
